@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+    {% block title %}
+    {{ login|title }}
+    {% endblock %}
+
+    {% block css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Nixie+One&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="#"/>
+    {% endblock %}
+</head>
+<body>
+<div class="container">
+    <div class="block-application">
+        {% if user.is_authenticated %}
+        <table class="position-table-index">
+            <tr>
+                <td class="td-style-index"><h3>Здравствуйте,</h3></td>
+                <td class="td-style-index"><h3>{{ user.first_name }}</h3></td>
+            </tr>
+        </table>
+        <div class="block-with-name-friedns">
+            <h4>Имена друзей:</h4>
+            <table>
+                {% for item in friednsNames %}
+                <tr>
+                    <td>
+                        {{ item }}
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <a href="{% url 'logout' %}" class="logout">Выйти</a>
+        {% else %}
+        <a href="{% url 'social:begin' 'vk-oauth2' %}?next=/" class="button-auth-index">
+            Авторизоваться
+        </a>
+        {% endif %}
+    </div>
+</div>
+</body>
+</html>
